@@ -1,6 +1,6 @@
 # DataMining-StockPricePrediction
 
-A Python 2.7 stock analysis program that uses Google's stock price data from 2004 to 2018, to build a prediction of future stock prices using linear regression.
+A Python 2.7 stock analysis program that uses Google's stock price data, accessed via Quandl, from 2004 to 2018, to build a prediction of future stock prices using linear regression.
 
 #### Modules used
 
