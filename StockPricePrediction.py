@@ -1,20 +1,19 @@
 ## Imports all modules called within application.
 import quandl
 import math
-import datetime
-import pickle
-
 import numpy as np
 import pandas as pd
-
 from sklearn import preprocessing, svm
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
-
 import matplotlib.pyplot as plt
+
 ## Sets style of graphs being plotted
 from matplotlib import style
 style.use('ggplot')
+
+import datetime
+import pickle
 
 ## Downloads specified data (Google stock data) from Quand1
 df = quandl.get("WIKI/GOOGL")
@@ -36,15 +35,17 @@ df.fillna(value=-99999, inplace=True)
 forecast_out = int(math.ceil(0.01 * len(df)))
 df['label'] = df[forecast_col].shift(-forecast_out)
 
-## Define features and labels
+## Defines features
 X = np.array(df.drop(['label'], 1))
 X = preprocessing.scale(X)
 X_lately = X[-forecast_out:]
 X = X[:-forecast_out]
-y = np.array(df['label'])
 
 ## Drops all NaN information from dataset
 df.dropna(inplace=True)
+
+## Defines labels
+y = np.array(df['label'])
 
 ##  Trains set of features, testing set of features, training set of labels, and testing set of labels
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
@@ -75,6 +76,7 @@ for i in forecast_set:
     df.loc[next_date] = [np.nan for _ in range(len(df.columns)-1)]+[i]
 
 ## Graphs stock data and plots the forcast / prediction to the graph.
+plt.figure(figsize=(15,8))
 df['Adj. Close'].plot()
 df['Forecast'].plot()
 plt.legend(loc=4)
